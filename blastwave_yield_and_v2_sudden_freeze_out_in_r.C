@@ -5,30 +5,28 @@
 
 class blastwave_yield_and_v2 {
 
-		// function for v2 numerator and denominator
-		// fos = freeze-out surface
-		// fos1: freeze-out time tf in the lab system: tf = sqrt(tau^2 + z^2) (no radial dependence)
-		static double v2_fos1_numerator(const double *x, const double *p);
-		static double v2_fos1_denominator(const double *x, const double *p);
+    // function for v2 numerator and denominator
+    // fos = freeze-out surface
+    // fos1: freeze-out time tf in the lab system: tf = sqrt(tau^2 + z^2) (no radial dependence)
+    static double v2_fos1_numerator(const double *x, const double *p);
+    static double v2_fos1_denominator(const double *x, const double *p);
 
-		// wrapper functions for v2 numerator and denominator
-    	ROOT::Math::WrappedParamFunction<> w_v2_fos1_num;
-    	ROOT::Math::WrappedParamFunction<> w_v2_fos1_den;
+    // wrapper functions for v2 numerator and denominator
+    ROOT::Math::WrappedParamFunction<> w_v2_fos1_num;
+    ROOT::Math::WrappedParamFunction<> w_v2_fos1_den;
 
-    	ROOT::Math::AdaptiveIntegratorMultiDim ig;
+    ROOT::Math::AdaptiveIntegratorMultiDim ig;
 
-      public:
-        blastwave_yield_and_v2()
-            : w_v2_fos1_num(&blastwave_yield_and_v2::v2_fos1_numerator, 2, 7),
-              w_v2_fos1_den(&blastwave_yield_and_v2::v2_fos1_denominator, 2, 7) {}
+  public:
+    blastwave_yield_and_v2()
+        : w_v2_fos1_num(&blastwave_yield_and_v2::v2_fos1_numerator, 2, 7),
+          w_v2_fos1_den(&blastwave_yield_and_v2::v2_fos1_denominator, 2, 7) {}
 
-        void calc_blastwave_yield_and_v2_fos1(const double &pt, const double &m, const double &T, const double &rho0,
-                                    const double &rho2, const double &RxOverRy, double &inv_yield, double &v2);
+    void calc_blastwave_yield_and_v2_fos1(const double &pt, const double &m, const double &T, const double &rho0,
+                                          const double &rho2, const double &RxOverRy, double &inv_yield, double &v2);
 
-        ClassDef(blastwave_yield_and_v2, 1)
-
+    ClassDef(blastwave_yield_and_v2, 1)
 };
-
 
 // numerator of the blastwave v2 formula
 double blastwave_yield_and_v2::v2_fos1_numerator(const double *x, const double *p) {
@@ -47,10 +45,10 @@ double blastwave_yield_and_v2::v2_fos1_numerator(const double *x, const double *
     double A = p[6]; // arbitrary factor, can be adjusted to improve numerical stability
 
     double PhiB = TMath::ATan(RxOverRy * TMath::Tan(PhiHat)); // boost angle
-	double mt = TMath::Sqrt(m * m + pt * pt);
-    double rho = rHat * (rho0 + rho2 * TMath::Cos(2 * PhiB));          // transverse rapidity
+    double mt = TMath::Sqrt(m * m + pt * pt);
+    double rho = rHat * (rho0 + rho2 * TMath::Cos(2 * PhiB)); // transverse rapidity
     double xip = pt * TMath::SinH(rho) / T;
-	double xim = mt * TMath::CosH(rho) / T;
+    double xim = mt * TMath::CosH(rho) / T;
 
     return A * rHat * TMath::BesselI(2, xip) * TMath::BesselK(1, xim) * TMath::Cos(2 * PhiB);
 }
@@ -72,18 +70,17 @@ double blastwave_yield_and_v2::v2_fos1_denominator(const double *x, const double
     double A = p[6]; // arbitrary factor, can be adjusted to improve numerical stability
 
     double PhiB = TMath::ATan(RxOverRy * TMath::Tan(PhiHat)); // boost angle
-	double mt = TMath::Sqrt(m * m + pt * pt);
+    double mt = TMath::Sqrt(m * m + pt * pt);
     double rho = rHat * (rho0 + rho2 * TMath::Cos(2 * PhiB)); // transverse rapidity
     double xip = pt * TMath::SinH(rho) / T;
-	double xim = mt * TMath::CosH(rho) / T;
+    double xim = mt * TMath::CosH(rho) / T;
 
     return A * rHat * TMath::BesselI(0, xip) * TMath::BesselK(1, xim);
 }
 
-
 void blastwave_yield_and_v2::calc_blastwave_yield_and_v2_fos1(const double &pt, const double &m, const double &T,
-                                                         const double &rho0, const double &rho2, const double &RxOverRy,
-                                                         double &inv_yield, double &v2) {
+                                                              const double &rho0, const double &rho2,
+                                                              const double &RxOverRy, double &inv_yield, double &v2) {
 
     // blast wave parameters:
     // the last number (par[6]) is an arbitrary normalization which we will adjust
@@ -125,12 +122,11 @@ void blastwave_yield_and_v2::calc_blastwave_yield_and_v2_fos1(const double &pt, 
     inv_yield = sf * TMath::Sqrt(m * m + pt * pt) * v2_den;
 }
 
-
 // main function:
 // show usage of blast wave v2 function
 void blastwave_yield_and_v2_sudden_freeze_out_in_r() {
 
-	blastwave_yield_and_v2 bw;
+    blastwave_yield_and_v2 bw;
 
     //
     // Plot v2 vs pt
@@ -142,7 +138,7 @@ void blastwave_yield_and_v2_sudden_freeze_out_in_r() {
 
     // const double m_BW = 9.460; // Upsilon
     // const double m_BW = 3.096; // J/psi
-    // const double m_BW = 0.14; // pion 
+    // const double m_BW = 0.14; // pion
     const double m_BW = 0.938; // proton
 
     const double pt_min = 0;
@@ -152,7 +148,7 @@ void blastwave_yield_and_v2_sudden_freeze_out_in_r() {
     const int i_max = (pt_max - pt_min) / dpt + 1;
     TGraph giy(i_max);
     TGraph gv2(i_max);
- 	
+
     TStopwatch t;
     t.Start();
 
@@ -191,5 +187,4 @@ void blastwave_yield_and_v2_sudden_freeze_out_in_r() {
     giy.SetMarkerStyle(kFullCircle);
     giy.SetMarkerSize(0.5);
     giy.DrawClone("l");
-
 }
