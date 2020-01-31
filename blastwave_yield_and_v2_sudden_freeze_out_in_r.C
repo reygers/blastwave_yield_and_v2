@@ -7,7 +7,7 @@ class blastwave_yield_and_v2 {
 
     // function for v2 numerator and denominator
     // fos = freeze-out surface
-    // fos1: freeze-out time tf in the lab system: tf = sqrt(tau^2 + z^2) (no radial dependence)
+    // fos1: freeze-out time tf in the lab 			system: tf = sqrt(tau^2 + z^2) (no radial dependence)
     static double v2_fos1_numerator(const double *x, const double *p);
     static double v2_fos1_denominator(const double *x, const double *p);
 
@@ -44,7 +44,8 @@ double blastwave_yield_and_v2::v2_fos1_numerator(const double *x, const double *
     double RxOverRy = p[5];
     double A = p[6]; // arbitrary factor, can be adjusted to improve numerical stability
 
-    double PhiB = TMath::ATan(RxOverRy * TMath::Tan(PhiHat)); // boost angle
+    double PhiB = TMath::ATan(RxOverRy * TMath::Tan(PhiHat)) +
+                  TMath::Pi() * TMath::Floor((PhiHat + TMath::Pi() / 2.) / TMath::Pi()); // boost angle
     double mt = TMath::Sqrt(m * m + pt * pt);
     double rho = rHat * (rho0 + rho2 * TMath::Cos(2 * PhiB)); // transverse rapidity
     double xip = pt * TMath::SinH(rho) / T;
@@ -69,7 +70,8 @@ double blastwave_yield_and_v2::v2_fos1_denominator(const double *x, const double
     double RxOverRy = p[5];
     double A = p[6]; // arbitrary factor, can be adjusted to improve numerical stability
 
-    double PhiB = TMath::ATan(RxOverRy * TMath::Tan(PhiHat)); // boost angle
+    double PhiB = TMath::ATan(RxOverRy * TMath::Tan(PhiHat)) +
+                  TMath::Pi() * TMath::Floor((PhiHat + TMath::Pi() / 2.) / TMath::Pi()); // boost angle
     double mt = TMath::Sqrt(m * m + pt * pt);
     double rho = rHat * (rho0 + rho2 * TMath::Cos(2 * PhiB)); // transverse rapidity
     double xip = pt * TMath::SinH(rho) / T;
