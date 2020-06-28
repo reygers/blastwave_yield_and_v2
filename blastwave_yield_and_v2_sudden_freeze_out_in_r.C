@@ -1,6 +1,8 @@
 //
-// Implementation of the blast wave v2 formula for an elliptic freeze-out hyper-surface
-// Klaus Reygers, October 2019
+// Implementation of the blast wave v2 formula for an elliptic freeze-out hyper-surface.
+// These formulas correspond to Eq.(4) (invariant yield) and Eq.(9) (elliptic flow v2(pT))
+// in arXiv:1910.14618 (Phys. Rev. C 101, 064905 (2020))
+// Klaus Reygers, June 2020
 //
 
 class blastwave_yield_and_v2 {
