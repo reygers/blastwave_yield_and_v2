@@ -135,15 +135,15 @@ void blastwave_yield_and_v2_sudden_freeze_out_in_r() {
     //
     // Plot v2 vs pt
     //
-    const double T_BW = 0.10;
-    const double Rho0_BW = 1.1;
-    const double Rho2_BW = 0.065;
-    const double RxOverRy_BW = 0.8;
+    const double T_BW = 0.1284;
+    const double Rho0_BW = 1.05;
+    const double Rho2_BW = 0.09;
+    const double RxOverRy_BW = 0.83;
 
-    // const double m_BW = 9.460; // Upsilon
+    const double m_BW = 9.460; // Upsilon
     // const double m_BW = 3.096; // J/psi
     // const double m_BW = 0.14; // pion
-    const double m_BW = 0.938; // proton
+    // const double m_BW = 0.938; // proton
 
     const double pt_min = 0;
     const double pt_max = 16.;
@@ -172,7 +172,7 @@ void blastwave_yield_and_v2_sudden_freeze_out_in_r() {
     gStyle->SetOptStat(0);
 
     TCanvas *c1 = new TCanvas("c1");
-    TH2F *fr = new TH2F("frame", "blast wave #it{v}_{2}", 1, pt_min, pt_max + 0.5, 1, 0., 0.8);
+    TH2F *fr = new TH2F("frame", "blast wave #it{v}_{2}", 1, pt_min, pt_max + 0.5, 1, 0., 0.12);
     fr->SetXTitle("p_{T} (GeV/#it{c})");
     fr->SetYTitle("#it{v}_{2}");
     fr->Draw();
